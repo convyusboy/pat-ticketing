@@ -1,0 +1,42 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateQuizQuestionsTable extends Migration {
+
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::create('quiz_questions', function(Blueprint $table)
+		{
+			$table->increments('id');
+			$table->integer('quiz_id')->unsigned();
+			$table->text('question');
+			$table->text('answer');
+			$table->integer('quiz_question_type_id')->unsigned()->default(1);
+			$table->timestamps();
+			$table->foreign('quiz_id')
+			->references('id')->on('quizes')
+			->onDelete('cascade');
+			$table->foreign('quiz_question_type_id')
+			->references('id')->on('quiz_question_types')
+			->onDelete('cascade');
+		});
+	}
+
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		Schema::drop('quiz_questions');
+	}
+
+}
